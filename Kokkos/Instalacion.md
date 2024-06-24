@@ -17,7 +17,7 @@ Ahora construiremos Kokkos con OpenMP, Cuda y serial
 
 ```bash
     $ mkdir build_serial && cd build_serial
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Serial \ -DKokkos_ENABLE_SERIAL=On ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Serial -DKokkos_ENABLE_SERIAL=On ..
     $ make -j 8
     $ make install
     $ cd ..
@@ -25,30 +25,9 @@ Ahora construiremos Kokkos con OpenMP, Cuda y serial
 
 **OpenMP**
 
-Edita el archivo **CMakeLists.txt** y ubica las lineas:
-
-```
-    ...
-    SET(KOKKOS_GIVEN_VARIABLES)
-    FOREACH (var ${_variableNames})
-    ...
-```
-
-Agrega las siguientes lineas para establecer OpenMP como dispositivos
-
-```
-    ...
-    SET(KOKKOS_GIVEN_VARIABLES)
-    SET(Kokkos_ENABLE_OPENMP DEFAULT CACHE BOOL "")
-    FOREACH (var ${_variableNames})
-    ...
-```
-
-Despues de guardar el archivo CMake:
-
 ```bash
     $ mkdir build_openmp && cd build_openmp
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_OpenMP \ -DKokkos_ENABLE_OPENMP=On ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_OpenMP -DKokkos_ENABLE_OPENMP=On ..
     $ make -j 8
     $ make install
     $ cd ..
@@ -56,22 +35,12 @@ Despues de guardar el archivo CMake:
 
 **Cuda**
 
-Agrega las siguiente linea en el archivo **CMakeLists.txt** para establecer Cuda como dispositivo
-
-```
-    ...
-    SET(KOKKOS_GIVEN_VARIABLES)
-    SET(Kokkos_ENABLE_CUDA DEFAULT CACHE BOOL "")
-    FOREACH (var ${_variableNames})
-    ...
-```
-Despues de guardar el archivo CMake:
-
 ```bash
     $ mkdir build_cuda && cd build_cuda
     $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Cuda -DKokkos_ENABLE_CUDA=On ..
     $ make -j 8
     $ make install
+    $ cd ..
     $ cd ..
 ```
 Vamos a crear un archivo básico para analizar el comportamiento de kokkos en los distintos dispositivos, para esto:
