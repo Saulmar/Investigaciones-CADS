@@ -69,7 +69,7 @@ Despues de guardar el archivo CMake:
 
 ```bash
     $ mkdir build_cuda && cd build_cuda
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Cuda \ -DKokkos_ENABLE_CUDA=On ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Cuda -DKokkos_ENABLE_CUDA=On ..
     $ make -j 8
     $ make install
     $ cd ..
@@ -147,13 +147,13 @@ Crea el archivo CMakeLists.txt y guardalo
     $ nano CMakeLists.txt
 ````
 ````CMake
-    cmake_minimum_required (VERSION 3.10)
-    project (main)
+cmake_minimum_required (VERSION 3.10)
+project (main)
 
-    find_package(Kokkos REQUIRED)
+find_package(Kokkos REQUIRED)
 
-    add_executable(main main.cpp)
-    target_link_libraries(main Kokkos::kokkos)
+add_executable(main main.cpp)
+target_link_libraries(main Kokkos::kokkos)
 ````
 
 Ahora compilaremos el archivo para los distintos dispositivos y revisaremos la salida (principalmente del dispositivo en el que está corriendo)
@@ -171,14 +171,15 @@ Entrada
 ````bash
     $ export Kokkos_DIR=${HOME}/Kokkos_Devices/Kokkos_Serial
     $ cd build
-    $ rm CMakeCache.txt
-    $ make clean
     $ cmake ..
     $ make
     $ ./main
+    $ cd ..
 ````
 Salida
 ````
+Corriendo en CPU - SERIAL
+Tiempo de ejecución: ### segundos
 ````
 
 **OPENMP**
@@ -192,9 +193,12 @@ Entrada
     $ cmake ..
     $ make
     $ ./main
+    $ cd ..
 ````
 Salida
 ````
+Corriendo en CPU - OPENMP
+Tiempo de ejecución: ### segundos
 ````
 
 **CUDA**
@@ -203,12 +207,16 @@ Entrada
 ````bash
     $ export Kokkos_DIR=${HOME}/Kokkos_Devices/Kokkos_Cuda
     $ cd build
+    $ rm CMakeCache.txt
+    $ make clean
     $ cmake ..
     $ make
     $ ./main
 ````
 Salida
 ````
+Corriendo en GPU
+Tiempo de ejecución: ### segundos
 ````
 
 De esta manera configuraremos kokkos para correr un mismo código en diferentes dispositivos :)
