@@ -9,27 +9,6 @@
 ```bash
     $ git clone https://github.com/kokkos/kokkos Kokkos_build
     $ cd Kokkos_build
-    $ nano CMakeLists.txt
-```
-
-Ubica las lineas y agrega:
-
-```
-    ...
-    SET(KOKKOS_GIVEN_VARIABLES)
-    FOREACH (var ${_variableNames})
-    ...
-```
-
-Agrega las siguientes lineas para establecer Cuda y OpenMP como dispositivos
-
-```
-    ...
-    SET(KOKKOS_GIVEN_VARIABLES)
-    SET(Kokkos_ENABLE_CUDA DEFAULT CACHE BOOL "")
-    SET(Kokkos_ENABLE_OPENMP DEFAULT CACHE BOOL "")
-    FOREACH (var ${_variableNames})
-    ...
 ```
 
 Ahora construiremos Kokkos con OpenMP, Cuda y serial
@@ -46,9 +25,30 @@ Ahora construiremos Kokkos con OpenMP, Cuda y serial
 
 **OpenMP**
 
+Edita el archivo **CMakeLists.txt** y ubica las lineas:
+
+```
+    ...
+    SET(KOKKOS_GIVEN_VARIABLES)
+    FOREACH (var ${_variableNames})
+    ...
+```
+
+Agrega las siguientes lineas para establecer OpenMP como dispositivos
+
+```
+    ...
+    SET(KOKKOS_GIVEN_VARIABLES)
+    SET(Kokkos_ENABLE_OPENMP DEFAULT CACHE BOOL "")
+    FOREACH (var ${_variableNames})
+    ...
+```
+
+Despues de guardar el archivo CMake:
+
 ```bash
     $ mkdir build_openmp && cd build_openmp
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_OpenMP \ -DKokkos_ENABLE_OPENMP=On \ -DKokkos_ENABLE_SERIAL=Off ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_OpenMP \ -DKokkos_ENABLE_OPENMP=On ..
     $ make -j 8
     $ make install
     $ cd ..
@@ -56,9 +56,20 @@ Ahora construiremos Kokkos con OpenMP, Cuda y serial
 
 **Cuda**
 
+Agrega las siguiente linea en el archivo **CMakeLists.txt** para establecer Cuda como dispositivo
+
+```
+    ...
+    SET(KOKKOS_GIVEN_VARIABLES)
+    SET(Kokkos_ENABLE_CUDA DEFAULT CACHE BOOL "")
+    FOREACH (var ${_variableNames})
+    ...
+```
+Despues de guardar el archivo CMake:
+
 ```bash
     $ mkdir build_cuda && cd build_cuda
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Cuda \ -DKokkos_ENABLE_CUDA=On \ -DKokkos_ENABLE_SERIAL=Off ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Cuda \ -DKokkos_ENABLE_CUDA=On ..
     $ make -j 8
     $ make install
     $ cd ..
