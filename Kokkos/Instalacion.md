@@ -38,7 +38,7 @@ Ahora construiremos Kokkos con OpenMP, Cuda y serial
 
 ```bash
     $ mkdir build_serial && cd build_serial
-    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Serial \ -DKokkos_ENABLE_SERIAL=Off ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/Kokkos_Devices/Kokkos_Serial \ -DKokkos_ENABLE_SERIAL=On ..
     $ make -j 8
     $ make install
     $ cd ..
@@ -67,6 +67,7 @@ Vamos a crear un archivo básico para analizar el comportamiento de kokkos en lo
 
 ````bash
     $ mkdir test
+    $ cd test
     $ nano main.cpp
 ````
 Copia el siguiente código y guardalo
@@ -112,11 +113,11 @@ int main(int argc, char* argv[]) {
     Kokkos::initialize(argc, argv);
 
     #ifdef KOKKOS_ENABLE_CUDA
-    printf("Corriendo on GPU\n");
+    printf("Corriendo en GPU\n");
     #elif defined(KOKKOS_ENABLE_OPENMP)
-    printf("Corriendo on CPU - OPENMP\n");
+    printf("Corriendo en CPU - OPENMP\n");
     #else
-    printf("Corriendo on CPU - SERIAL\n");
+    printf("Corriendo en CPU - SERIAL\n");
     #endif
 
     {
@@ -128,6 +129,22 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 ````
+
+Crea el archivo CMakeLists.txt y guardalo
+
+````bash
+    $ nano CMakeLists.txt
+````
+````CMake
+    cmake_minimum_required (VERSION 3.10)
+    project (main)
+
+    find_package(Kokkos REQUIRED)
+
+    add_executable(main main.cpp)
+    target_link_libraries(main Kokkos::kokkos)
+````
+
 Ahora compilaremos el archivo para los distintos dispositivos y revisaremos la salida (principalmente del dispositivo en el que está corriendo)
 
 Crea una carpeta para ahí configurar la compilación
@@ -142,7 +159,7 @@ Crea una carpeta para ahí configurar la compilación
 Entrada
 ````bash
     $ export Kokkos_DIR=${HOME}/Kokkos_Devices/Kokkos_Serial
-    $ cd ./build
+    $ cd build
     $ rm CMakeCache.txt
     $ make clean
     $ cmake ..
@@ -158,7 +175,7 @@ Salida
 Entrada
 ````bash
     $ export Kokkos_DIR=${HOME}/Kokkos_Devices/Kokkos_OpenMP
-    $ cd ./build
+    $ cd build
     $ rm CMakeCache.txt
     $ make clean
     $ cmake ..
@@ -174,9 +191,7 @@ Salida
 Entrada
 ````bash
     $ export Kokkos_DIR=${HOME}/Kokkos_Devices/Kokkos_Cuda
-    $ cd ./build
-    $ rm CMakeCache.txt
-    $ make clean
+    $ cd build
     $ cmake ..
     $ make
     $ ./main
