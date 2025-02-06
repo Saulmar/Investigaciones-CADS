@@ -609,7 +609,7 @@ Prueba la magía :)
 > [!IMPORTANT]
 > Recuerda borrar los pods creados
 ```bash
-kubectl delete pod kokkos-test2
+kubectl delete pod kokkos-test
 ```
 ![GIF de pocoyó bailando](images/pocoyo.gif)
 
