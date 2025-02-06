@@ -354,7 +354,8 @@ G2dJSEksARG2AYeJnMBZR+oeXrMDuw23nYTnZyvH+HrII7wZtblU+/YAoRKh4H45
 -----END CERTIFICATE-----
 ```
 > [!IMPORTANT]
-> Si estas usando el WSL instala WSLU con "sudo apt install wslu"
+> Si estas usando el WSL instala WSLU con "sudo apt install wslu y export BROWSER=wslview"
+> kubectl config view --minify --raw
  
 La primera vez que ejecutemos cualquier comando de kubectl, que requiera interactuar con el cluster, se activará  el mecanismo de autenticación, por ejemplo
 ```bash
