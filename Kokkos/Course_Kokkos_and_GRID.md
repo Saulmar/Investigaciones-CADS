@@ -205,6 +205,7 @@ Esto permite al usuario ver cuánto tiempo tomó realizar la multiplicación de 
 V=`curl -L -s https://dl.k8s.io/release/stable.txt`
 curl -LO "https://dl.k8s.io/release/$V/bin/linux/amd64/kubectl”
 ```
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 ```bash
 chmod a+x ./kubectl
 ```
