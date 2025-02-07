@@ -300,7 +300,7 @@ users:
   user:
     exec:
       apiVersion: client.authentication.k8s.io/v1beta1
-      command: kubectl-oidc_login.exe
+      command: kubectl-oidc_login
       args:
       - get-token
       - --oidc-issuer-url=https://sso.lamod.unam.mx/auth/realms/cudi
