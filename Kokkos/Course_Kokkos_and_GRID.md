@@ -245,11 +245,11 @@ mkdir ~/.kube
 ```
 Crear el archivo config en  ~/.kube/config con el siguiente contenido
 
-> [!IMPORTANT]
-> Nota la diferencias al usar linux nativo o wsl
-
 > [!CAUTION]
 > Se pide total discresión con la información etiquetada como sensible
+
+> [!NOTE]
+> Este yaml se usa cuando usas WSL
 ```yaml
 apiVersion: v1
 clusters:
@@ -280,6 +280,8 @@ users:
       interactiveMode: IfAvailable
       provideClusterInfo: false
 ```
+> [!NOTE]
+> Este yaml se usa cuando usas Linux nativo
 ```yaml
 apiVersion: v1
 clusters:
@@ -290,24 +292,26 @@ clusters:
 contexts:
 - context:
     cluster: kubernetes
-    user: oidc
-  name: oidc@kubernetes
+  user: oidc
+  name: oidc@kubernetesget
 current-context: oidc@kubernetes
 kind: Config
 preferences: {}
 users:
 - name: oidc
   user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1beta1
-      command: kubectl-oidc_login
-      args:
-      - get-token
-      - --oidc-issuer-url=https://sso.lamod.unam.mx/auth/realms/cudi
-      - --oidc-client-id=k8s
-      - --oidc-client-secret=oaBYG6ilMjksxojSvd3fJuogkh2VrOSW
-      interactiveMode: IfAvailable
-      provideClusterInfo: false
+exec:
+  apiVersion: client.authentication.k8s.io/v1beta1
+  args:
+  - oidc-login
+  - get-token
+  - --oidc-issuer-url=https://sso.lamod.unam.mx/auth/realms/cudi
+  - --oidc-client-id=k8s
+  - --oidc-client-secret=oaBYG6ilMjksxojSvd3fJuogkh2VrOSW
+  command: kubectl
+  env: null
+  interactiveMode: IfAvailable
+  provideClusterInfo: false
 ```
 Guía del archivo config: [aquí](#apendice)
 
@@ -322,8 +326,13 @@ Copiar la llave pública del cluster en ~/.kube/certs/pmiia/k8s-ca.crt (crear ca
 -----END CERTIFICATE-----
 ```
 > [!IMPORTANT]
-> Si estas usando el WSL instala WSLU con "sudo apt install wslu y export BROWSER=wslview"
-> kubectl config view --minify --raw
+> Si estas usando el WSL instala WSLU
+```bash
+sudo apt install wslu
+```
+```bash
+export BROWSER=wslview
+```
  
 La primera vez que ejecutemos cualquier comando de kubectl, que requiera interactuar con el cluster, se activará  el mecanismo de autenticación, por ejemplo
 ```bash
