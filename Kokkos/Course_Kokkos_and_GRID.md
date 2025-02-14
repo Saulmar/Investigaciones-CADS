@@ -305,9 +305,9 @@ exec:
   args:
   - oidc-login
   - get-token
-  - --oidc-issuer-url=https://sso.lamod.unam.mx/auth/realms/cudi
-  - --oidc-client-id=k8s
-  - --oidc-client-secret=oaBYG6ilMjksxojSvd3fJuogkh2VrOSW
+  - --oidc-issuer-url=***
+  - --oidc-client-id=***
+  - --oidc-client-secret=***
   command: kubectl
   env: null
   interactiveMode: IfAvailable
